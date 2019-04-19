@@ -7,8 +7,8 @@ const knex = require('knex')({
   version: '10.6',
   connection: {
     host: process.env.DATABASE_URL,
-    database: process.env.DATABASE_NAME,
-    user: process.env.AUTH_DATABASE_USER,
+    database: 'postgres',
+    user: 'service_auth',
     password: process.env.AUTH_DATABASE_PASSWORD
   }
 })

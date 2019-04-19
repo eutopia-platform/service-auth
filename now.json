@@ -5,10 +5,7 @@
   "builds": [{ "src": "index.js", "use": "@now/node" }],
   "scope": "eutopia",
   "env": {
-    "AUTH_PASSWORD": "@auth_password",
     "DATABASE_URL": "@database_url",
-    "DATABASE_NAME": "@database_name",
-    "AUTH_DATABASE_USER": "@database_user",
-    "AUTH_DATABASE_PASSWORD": "@database_password"
+    "AUTH_DATABASE_PASSWORD": "@auth_database_password"
   }
 }
