@@ -1,0 +1,8 @@
+CREATE SCHEMA IF NOT EXISTS sc_auth;
+
+
+DROP USER IF EXISTS service_auth;
+CREATE USER service_auth;
+
+GRANT USAGE ON SCHEMA sc_auth TO service_auth;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA sc_auth TO service_auth;
