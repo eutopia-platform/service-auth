@@ -3,11 +3,12 @@
 Use node version 8.11.3 (latest)
 
 #### Queries:
-- [hello](#hello)
-- [isCodeValid](#is-code-valid)
+- [Hello](#hello)
+- [Is code valid](#is-code-valid)
 
 #### Mutations:
-- [registerEmail](#register-email)  
+- [Register Email](#register-email)  
+- [Set password](#set-password)  
 
 # Queries
 
@@ -75,3 +76,28 @@ Message | Description
 -- | --
 EMAIL_ALREADY_USED | a user with the specified email address already exists
 INVALID_EMAIL | the email argument is not in valid email format
+
+---
+
+### Set Password
+
+```graphql
+setPassword(email: String!, code: ID!, password: String!): Null
+```
+
+Moves user from pending signup to regular user. Password is stored hashed & salted.
+
+#### Arguments
+
+Argument | Type | Description
+-- | -- | --
+email | String! | email used in signup
+code | ID! | pin code received via email
+password | String! | new password (length must be > 8)
+
+#### Error messages
+
+Message | Description
+-- | --
+INVALID_USER | no signup with given email & code pending
+INVALID_PASSWORD | password length is shorther than 8

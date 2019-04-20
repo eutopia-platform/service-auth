@@ -1,3 +1,5 @@
+scalar Null
+
 type Query {
   hello: String
   isCodeValid(email: String!, code: ID!): Boolean!
@@ -5,6 +7,7 @@ type Query {
 
 type Mutation {
   registerEmail(email: String): ID!
+  setPassword(email: String!, code: ID!, password: String!): Null
 }
 
 schema {

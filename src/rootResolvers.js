@@ -2,6 +2,8 @@ import { graphql } from 'graphql'
 import schema from './schema'
 import { isValidEmail, sendWelcome } from './mail'
 
+const bcrypt = require('bcrypt')
+
 const knex = require('knex')({
   client: 'pg',
   version: '10.6',
@@ -47,5 +49,24 @@ export default {
     await sendWelcome(email, code)
 
     return code
+  },
+
+  setPassword: async ({email, code, password}) => {
+    const user = await selectSingle('pending_signup', {email, code})
+    if (user === null)
+      throw Error('INVALID_USER')
+    if (password.length < 8)
+      throw Error('INVALID_PASSWORD')
+    
+      await knex.withSchema(dbSchema).from('pending_signup').delete().where({email, code})
+    
+    let uid
+    do {
+      uid = Array(20).fill().map(_ => String.fromCharCode(Math.floor(Math.random() * 26) + 97)).join('')
+    } while((await selectSingle('user', {uid})) !== null)
+
+    const hash = bcrypt.hashSync(password, 10)
+    
+    await knex.withSchema(dbSchema).into('user').insert({uid, email, password: hash})
   }
 }
