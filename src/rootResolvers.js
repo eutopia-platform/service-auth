@@ -87,5 +87,9 @@ export default {
     })
     
     return sessionToken
+  },
+
+  logout: async ({token}) => {
+    await knex.withSchema(dbSchema).from('session').delete().where({token})
   }
 }

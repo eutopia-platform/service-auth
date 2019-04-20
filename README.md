@@ -10,6 +10,7 @@ Use node version 8.11.3 (latest)
 - [Register Email](#register-email)
 - [Set password](#set-password)
 - [Login](#login)
+- [Logout](#logout)
 
 # Queries
 
@@ -128,3 +129,17 @@ The session token, if successful
 Message | Description
 -- | --
 INCORRECT | email and/or password is incorrect
+
+---
+
+### Logout
+
+```graphql
+login(token: ID!): Null
+```
+
+#### Arguments
+
+Argument | Type | Description
+-- | -- | --
+token | ID! | session token
