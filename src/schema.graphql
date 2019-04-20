@@ -2,6 +2,11 @@ type Query {
   hello: String
 }
 
+type Mutation {
+  registerEmail(email: String): ID!
+}
+
 schema {
   query: Query
+  mutation: Mutation
 }

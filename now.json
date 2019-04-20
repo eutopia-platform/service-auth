@@ -6,6 +6,8 @@
   "scope": "eutopia",
   "env": {
     "DATABASE_URL": "@database_url",
-    "AUTH_DATABASE_PASSWORD": "@auth_database_password"
+    "AUTH_DATABASE_PASSWORD": "@auth_database_password",
+    "MAIL_SERVICE_URL": "mail_service_url",
+    "MAIL_SERVICE_PASSWORD": "mail_service_password"
   }
 }
