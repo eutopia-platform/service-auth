@@ -25,6 +25,7 @@
   "dependencies": {
     "@babel/runtime": "^7.4.3",
     "axios": "^0.18.0",
+    "bcrypt": "^3.0.6",
     "graphql": "^14.2.1",
     "knex": "^0.16.5",
     "micro": "^9.3.3",

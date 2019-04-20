@@ -23,7 +23,7 @@ CREATE TABLE sc_auth.pending_signup (
 );
 
 DROP USER IF EXISTS service_auth;
-CREATE USER service_auth;
+CREATE USER service_auth WITH ENCRYPTED PASSWORD <password>;
 
 GRANT USAGE ON SCHEMA sc_auth TO service_auth;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA sc_auth TO service_auth;

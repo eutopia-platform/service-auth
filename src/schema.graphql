@@ -1,7 +1,18 @@
+scalar Null
+
 type Query {
   hello: String
+  isCodeValid(email: String!, code: ID!): Boolean!
+}
+
+type Mutation {
+  registerEmail(email: String): ID!
+  setPassword(email: String!, code: ID!, password: String!): Null
+  login(email: String!, password: String!): ID
+  logout(token: ID!): Null
 }
 
 schema {
   query: Query
+  mutation: Mutation
 }
