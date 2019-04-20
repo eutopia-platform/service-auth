@@ -1,5 +1,3 @@
-import { graphql } from 'graphql'
-import schema from './schema'
 import { isValidEmail, sendWelcome } from './mail'
 
 const bcrypt = require('bcrypt')
@@ -68,5 +66,26 @@ export default {
     const hash = bcrypt.hashSync(password, 10)
     
     await knex.withSchema(dbSchema).into('user').insert({uid, email, password: hash})
+  },
+
+  login: async ({email, password}) => {
+    const user = await selectSingle('user', {email})
+    const correct = user ? await bcrypt.compare(password, user.password) : false
+    if (!correct)
+      throw new Error('INCORRECT')
+
+    let sessionToken
+    do {
+      sessionToken = Array(20).fill().map(_ => String.fromCharCode(Math.floor(Math.random() * 26) + 97)).join('')
+    } while ((await selectSingle('session', { token: sessionToken })) !== null)
+
+    await knex.withSchema(dbSchema).into('session').insert({
+      token: sessionToken,
+      uid: user.uid,
+      created: knex.fn.now(),
+      timeout: 'P100D'
+    })
+    
+    return sessionToken
   }
 }
