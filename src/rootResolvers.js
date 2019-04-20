@@ -26,6 +26,25 @@ export default {
     return user.code === code
   },
 
+  user: async ({token}, context) => {
+    const auth = context.headers.auth
+    console.log('auth:', auth)
+    if (!auth || auth !== process.env.AUTH_PASSWORD)
+      throw Error('UNAUTHORIZED')
+    
+    const session = await selectSingle('session', {token})
+    if (!session)
+      return { isLoggedIn: false }
+
+    const user = await selectSingle('user', {uid: session.uid})
+    
+    return {
+      isLoggedIn: true,
+      uid: user.uid,
+      email: user.email
+    }
+  },
+
   registerEmail: async ({email}) => {
     const [alreadyPending, alreadyUser] = (await Promise.all([select('pending_signup', {email}), select('user', {email})])).map(r => r.length > 0)
     if (alreadyUser)

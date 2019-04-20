@@ -5,6 +5,7 @@ Use node version 8.11.3 (latest)
 #### Queries:
 - [Hello](#hello)
 - [Is code valid](#is-code-valid)
+- [User](#user)
 
 #### Mutations:
 - [Register Email](#register-email)
@@ -50,6 +51,38 @@ True if signup code matches the email in pending signups, false otherwise.
 Message | Description
 -- | --
 NOT_PENDING | either email address wasn't used to request signup or signup is already completed
+
+---
+
+### User
+
+Returns user information to session token. Authorization required.
+
+```graphql
+user(token: ID!): User!
+```
+
+#### Arguments
+
+Argument | Type | Description
+-- | -- | --
+token | ID! | session token
+
+#### Return Value
+
+```graphql
+type User {
+  isLoggedIn: Boolean
+  uid: ID
+  email: String
+}
+```
+
+#### Error messages
+
+Message | Description
+-- | --
+UNAUTHORIZED | invalid or missing auth HTTP header
 
 
 # Mutations

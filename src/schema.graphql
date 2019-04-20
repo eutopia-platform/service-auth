@@ -1,8 +1,14 @@
 scalar Null
+type User {
+  isLoggedIn: Boolean
+  uid: ID
+  email: String
+}
 
 type Query {
   hello: String
   isCodeValid(email: String!, code: ID!): Boolean!
+  user(token: ID!): User!
 }
 
 type Mutation {
