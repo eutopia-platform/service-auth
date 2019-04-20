@@ -1,5 +1,6 @@
 type Query {
   hello: String
+  isCodeValid(email: String!, code: ID!): Boolean!
 }
 
 type Mutation {

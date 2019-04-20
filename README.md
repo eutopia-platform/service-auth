@@ -2,9 +2,14 @@
 
 Use node version 8.11.3 (latest)
 
-## Queries
+#### Queries:
+- [hello](#hello)
+- [isCodeValid](#is-code-valid)
 
-- [Hello](#hello)
+#### Mutations:
+- [registerEmail](#register-email)  
+
+# Queries
 
 ### Hello
 
@@ -16,9 +21,35 @@ hello: String
 
 "auth says hello"
 
-## Mutations
+---
 
-- [Register Email](#register-email)  
+### Is Code Valid
+
+```graphql
+isCodeValid(email: String!, code: ID!): Boolean!
+```
+Checks if user signup with given email and code is pending.
+
+#### Arguments
+
+Argument | Type | Description
+-- | -- | --
+email | String! |
+code | ID! |
+
+#### Return Value
+
+True if signup code matches the email in pending signups, false otherwise.
+
+#### Error messages
+
+Message | Description
+-- | --
+NOT_PENDING | either email address wasn't used to request signup or signup is already completed
+
+
+# Mutations
+
 
 ### Register Email
 

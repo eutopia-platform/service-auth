@@ -14,9 +14,17 @@ const knex = require('knex')({
 })
 const dbSchema = 'sc_auth'
 const select = async (from, where) => await knex.select().withSchema(dbSchema).from(from).where(where)
+const selectSingle = async (from, where) => await select(from, where) |> (_ => #.length ?#[0] : null) ()
 
 export default {
   hello: () => 'auth says hello',
+
+  isCodeValid: async ({email, code}) => {
+    const user = await selectSingle('pending_signup', {email})
+    if (user === null)
+      throw Error('NOT_PENDING')
+    return user.code === code
+  },
 
   registerEmail: async ({email}) => {
     const [alreadyPending, alreadyUser] = (await Promise.all([select('pending_signup', {email}), select('user', {email})])).map(r => r.length > 0)
