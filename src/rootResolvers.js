@@ -28,7 +28,6 @@ export default {
 
   user: async ({token}, context) => {
     const auth = context.headers.auth
-    console.log('auth:', auth)
     if (!auth || auth !== process.env.AUTH_PASSWORD)
       throw Error('UNAUTHORIZED')
     
