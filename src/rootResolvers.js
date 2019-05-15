@@ -33,12 +33,11 @@ export default {
     
     const session = await selectSingle('session', {token})
     if (!session)
-      return { isLoggedIn: false }
+      throw Error('NOT_LOGGED_IN')
 
     const user = await selectSingle('user', {uid: session.uid})
     
     return {
-      isLoggedIn: true,
       uid: user.uid,
       email: user.email
     }

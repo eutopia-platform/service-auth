@@ -1,6 +1,5 @@
 scalar Null
 type User {
-  isLoggedIn: Boolean
   uid: ID
   email: String
 }
