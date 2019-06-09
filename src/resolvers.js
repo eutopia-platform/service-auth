@@ -1,4 +1,6 @@
 import { ForbiddenError, UserInputError } from 'apollo-server-micro'
+import uuid from 'uuid/v4'
+import bcrypt from 'bcrypt'
 
 const knex = require('knex')({
   client: 'pg',
@@ -17,6 +19,11 @@ const isValidUUID = uuid =>
     uuid
   )
 
+const isValidEmail = email =>
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    email
+  )
+
 export default {
   Query: {
     hello: () => 'authentication service says hello',
@@ -32,7 +39,36 @@ export default {
   },
 
   Mutation: {
-    login: async (root, { email, password }) => {},
-    logout: async (root, { sessionToken }) => {}
+    login: async (root, { email, password }) => {
+      console.log('login', { email, password })
+      const user = (await knex('user').where({ email }))[0]
+      const correct = user
+        ? await bcrypt.compare(password, user.password)
+        : false
+      if (!correct) throw new UserInputError('INVALID')
+
+      const token = uuid()
+      await knex('session').insert({
+        token,
+        id: user.id,
+        created: knex.fn.now()
+      })
+      return token
+    },
+    logout: async (root, { sessionToken }) => {},
+
+    signup: async (root, { email, password }, context) => {
+      if ((await knex('user').where({ email })).length)
+        throw new UserInputError('ALREADY_EXIST')
+      if (!isValidEmail(email)) throw new UserInputError('INVALID_EMAIL')
+      if (password.length < 8) throw new UserInputError('INVALID_PASSWORD')
+
+      await knex('user').insert({
+        id: uuid(),
+        email,
+        password: bcrypt.hashSync(password, 10)
+      })
+      return await context.resolvers.Mutation.login(null, { email, password })
+    }
   }
 }

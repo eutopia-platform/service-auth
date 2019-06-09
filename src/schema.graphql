@@ -17,6 +17,7 @@ type Query {
 type Mutation {
   login(email: String!, password: String!): ID!
   logout(sessionToken: ID!): Boolean
+  signup(email: String!, password: String!): ID!
 }
 
 schema {

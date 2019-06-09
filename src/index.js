@@ -30,7 +30,8 @@ export default async (request, response) => {
     typeDefs: schema,
     resolvers,
     context: {
-      isService
+      isService,
+      resolvers
     }
   }).createHandler({
     path: '/'
