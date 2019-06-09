@@ -4,10 +4,11 @@ CREATE TYPE auth.role AS ENUM ('USER', 'ADMIN');
 
 DROP TABLE IF EXISTS auth.user CASCADE;
 CREATE TABLE auth.user (
-  id        uuid          PRIMARY KEY,
-  email     varchar       UNIQUE NOT NULL,
-  password  varchar       NOT NULL,
-  role      auth.role     DEFAULT 'USER'
+  id              uuid        PRIMARY KEY,
+  email           varchar     UNIQUE NOT NULL,
+  password        varchar     NOT NULL,
+  role            auth.role   DEFAULT 'USER',
+  email_verified  BOOLEAN     DEFAULT FALSE
 );
 
 DROP TABLE IF EXISTS auth.session CASCADE;
