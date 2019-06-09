@@ -4,7 +4,7 @@ enum Role {
 }
 
 type User {
-  uid: ID!
+  id: ID!
   email: String!
   role: Role!
 }
@@ -17,6 +17,7 @@ type Query {
 type Mutation {
   login(email: String!, password: String!): ID!
   logout(sessionToken: ID!): Boolean
+  signup(email: String!, password: String!): ID!
 }
 
 schema {
