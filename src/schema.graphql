@@ -4,7 +4,7 @@ enum Role {
 }
 
 type User {
-  uid: ID!
+  id: ID!
   email: String!
   role: Role!
 }
