@@ -9,6 +9,9 @@
     "start": "NODE_ENV=production micro ./dist/index.js",
     "start:dev": "source secret_setup.sh && NODE_ENV=development micro-dev ./dist/index.js --port 4000"
   },
+  "watch": {
+    "build": "src/*.{js,graphql}"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
