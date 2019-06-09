@@ -40,7 +40,6 @@ export default {
 
   Mutation: {
     login: async (root, { email, password }) => {
-      console.log('login', { email, password })
       const user = (await knex('user').where({ email }))[0]
       const correct = user
         ? await bcrypt.compare(password, user.password)
@@ -55,7 +54,12 @@ export default {
       })
       return token
     },
-    logout: async (root, { sessionToken }) => {},
+
+    logout: async (root, { sessionToken }) => {
+      await knex('session')
+        .where({ token: sessionToken })
+        .del()
+    },
 
     signup: async (root, { email, password }, context) => {
       if ((await knex('user').where({ email })).length)
