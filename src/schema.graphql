@@ -1,23 +1,28 @@
-scalar Null
+enum Role {
+  user
+  admin
+}
+
 type User {
-  uid: ID
-  email: String
+  uid: ID!
+  email: String!
+  role: Role!
 }
 
 type Query {
   hello: String
-  isCodeValid(email: String!, code: ID!): Boolean!
+  # isCodeValid(email: String!, code: ID!): Boolean!
   user(token: ID!): User!
 }
 
-type Mutation {
-  registerEmail(email: String): ID!
-  setPassword(email: String!, code: ID!, password: String!): Null
-  login(email: String!, password: String!): ID
-  logout(token: ID!): Null
-}
+# type Mutation {
+#   registerEmail(email: String): ID!
+#   setPassword(email: String!, code: ID!, password: String!): Null
+#   login(email: String!, password: String!): ID
+#   logout(token: ID!): Null
+# }
 
 schema {
   query: Query
-  mutation: Mutation
+  # mutation: Mutation
 }

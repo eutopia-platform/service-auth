@@ -33,6 +33,7 @@
     "apollo-link": "^1.2.11",
     "apollo-link-error": "^1.1.10",
     "apollo-link-http": "^1.5.14",
+    "apollo-server-micro": "^2.6.2",
     "bcrypt": "^3.0.6",
     "graphql": "^14.2.1",
     "graphql-tag": "^2.10.1",
