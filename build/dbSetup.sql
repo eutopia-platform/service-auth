@@ -14,7 +14,7 @@ CREATE TABLE auth.user (
 DROP TABLE IF EXISTS auth.session CASCADE;
 CREATE TABLE auth.session (
   token     uuid        PRIMARY KEY,
-  id        uuid        NOT NULL REFERENCES auth.user(id),
+  id        uuid        NOT NULL REFERENCES auth.user(id) ON DELETE CASCADE,
   created   timestamp   NOT NULL
 );
 

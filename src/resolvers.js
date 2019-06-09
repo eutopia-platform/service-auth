@@ -1,6 +1,8 @@
 import { ForbiddenError, UserInputError } from 'apollo-server-micro'
 import uuid from 'uuid/v4'
 import bcrypt from 'bcrypt'
+import { user } from './interService'
+import gql from 'graphql-tag'
 
 const knex = require('knex')({
   client: 'pg',
@@ -67,10 +69,19 @@ export default {
       if (!isValidEmail(email)) throw new UserInputError('INVALID_EMAIL')
       if (password.length < 8) throw new UserInputError('INVALID_PASSWORD')
 
+      const id = uuid()
       await knex('user').insert({
-        id: uuid(),
+        id,
         email,
         password: bcrypt.hashSync(password, 10)
+      })
+      await user.mutate({
+        mutation: gql`
+          mutation addNewUser($id: ID!, $email: String!) {
+            addUser(id: $id, email: $email)
+          }
+        `,
+        variables: { id, email }
       })
       return await context.resolvers.Mutation.login(null, { email, password })
     }
