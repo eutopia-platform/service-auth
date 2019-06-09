@@ -1,6 +1,6 @@
 enum Role {
-  user
-  admin
+  USER
+  ADMIN
 }
 
 type User {
@@ -11,18 +11,15 @@ type User {
 
 type Query {
   hello: String
-  # isCodeValid(email: String!, code: ID!): Boolean!
-  user(token: ID!): User!
+  user(sessionToken: ID!): User!
 }
 
-# type Mutation {
-#   registerEmail(email: String): ID!
-#   setPassword(email: String!, code: ID!, password: String!): Null
-#   login(email: String!, password: String!): ID
-#   logout(token: ID!): Null
-# }
+type Mutation {
+  login(email: String!, password: String!): ID!
+  logout(sessionToken: ID!): Boolean
+}
 
 schema {
   query: Query
-  # mutation: Mutation
+  mutation: Mutation
 }
