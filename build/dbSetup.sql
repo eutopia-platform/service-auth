@@ -18,6 +18,12 @@ CREATE TABLE auth.session (
   created   timestamp   NOT NULL
 );
 
+DROP TABLE IF EXISTS auth.invitation CASCADE;
+CREATE TABLE auth.invitation (
+  email     varchar     PRIMARY KEY,
+  id        uuid        UNIQUE NOT NULL
+);
+
 DROP USER IF EXISTS service_auth;
 CREATE USER service_auth WITH ENCRYPTED PASSWORD <password>;
 
