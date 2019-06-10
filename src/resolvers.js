@@ -84,6 +84,18 @@ export default {
         variables: { id, email }
       })
       return await context.resolvers.Mutation.login(null, { email, password })
+    },
+
+    invite: async (root, { email }, { isService }) => {
+      if (!isService) throw new ForbiddenError('UNAUTHORIZED')
+      if ((await knex('user').where({ email })).length > 0)
+        throw new UserInputError('ALREADY_USER')
+      let invitee = (await knex('invitation').where({ email }))[0]
+      if (!invitee)
+        invitee = (await knex('invitation')
+          .insert({ email, id: uuid() })
+          .returning('*'))[0]
+      return invitee.id
     }
   }
 }
