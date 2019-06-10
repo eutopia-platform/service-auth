@@ -69,7 +69,8 @@ export default {
       if (!isValidEmail(email)) throw new UserInputError('INVALID_EMAIL')
       if (password.length < 8) throw new UserInputError('INVALID_PASSWORD')
 
-      const id = uuid()
+      const invite = (await knex('invitation').where({ email }))[0]
+      const id = invite ? invite.id : uuid()
       await knex('user').insert({
         id,
         email,
