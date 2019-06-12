@@ -9,6 +9,7 @@
     "AUTH_DATABASE_PASSWORD": "@auth_database_password",
     "MAIL_SERVICE_URL": "@mail_service_url",
     "MAIL_SERVICE_PASSWORD": "@mail_service_password",
-    "AUTH_PASSWORD": "@auth_password"
+    "AUTH_PASSWORD": "@auth_password",
+    "USER_PASSWORD": "@user_password"
   }
 }

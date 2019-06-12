@@ -1,29 +1,31 @@
-CREATE SCHEMA IF NOT EXISTS sc_auth;
+CREATE SCHEMA IF NOT EXISTS auth;
 
-DROP TABLE IF EXISTS sc_auth.user CASCADE;
-CREATE TABLE sc_auth.user (
-  uid       char(20)      PRIMARY KEY,
-  email     varchar(70)   UNIQUE NOT NULL,
-  password  varchar(100)  NOT NULL
+CREATE TYPE auth.role AS ENUM ('USER', 'ADMIN');
+
+DROP TABLE IF EXISTS auth.user CASCADE;
+CREATE TABLE auth.user (
+  id              uuid        PRIMARY KEY,
+  email           varchar     UNIQUE NOT NULL,
+  password        varchar     NOT NULL,
+  role            auth.role   DEFAULT 'USER',
+  email_verified  BOOLEAN     DEFAULT FALSE
 );
 
-DROP TABLE IF EXISTS sc_auth.session CASCADE;
-CREATE TABLE sc_auth.session (
-  token     char(20)      PRIMARY KEY,
-  uid       char(20)      NOT NULL REFERENCES sc_auth.user(uid),
-  created   timestamp     NOT NULL,
-  timeout   interval      NOT NULL
+DROP TABLE IF EXISTS auth.session CASCADE;
+CREATE TABLE auth.session (
+  token     uuid        PRIMARY KEY,
+  id        uuid        NOT NULL REFERENCES auth.user(id) ON DELETE CASCADE,
+  created   timestamp   NOT NULL
 );
 
-DROP TABLE IF EXISTS sc_auth.pending_signup CASCADE;
-CREATE TABLE sc_auth.pending_signup (
-  email     varchar(70)   UNIQUE NOT NULL,
-  code      char(6)       UNIQUE NOT NULL,
-  created   timestamp     NOT NULL
+DROP TABLE IF EXISTS auth.invitation CASCADE;
+CREATE TABLE auth.invitation (
+  email     varchar     PRIMARY KEY,
+  id        uuid        UNIQUE NOT NULL
 );
 
 DROP USER IF EXISTS service_auth;
 CREATE USER service_auth WITH ENCRYPTED PASSWORD <password>;
 
-GRANT USAGE ON SCHEMA sc_auth TO service_auth;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA sc_auth TO service_auth;
+GRANT USAGE ON SCHEMA auth TO service_auth;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA auth TO service_auth;

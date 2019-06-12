@@ -9,6 +9,9 @@
     "start": "NODE_ENV=production micro ./dist/index.js",
     "start:dev": "source secret_setup.sh && NODE_ENV=development micro-dev ./dist/index.js --port 4000"
   },
+  "watch": {
+    "build": "src/*.{js,graphql}"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -30,12 +33,14 @@
     "apollo-link": "^1.2.11",
     "apollo-link-error": "^1.1.10",
     "apollo-link-http": "^1.5.14",
+    "apollo-server-micro": "^2.6.2",
     "bcrypt": "^3.0.6",
     "graphql": "^14.2.1",
     "graphql-tag": "^2.10.1",
     "knex": "^0.16.5",
     "micro": "^9.3.3",
     "node-fetch": "^2.3.0",
-    "pg": "^7.10.0"
+    "pg": "^7.10.0",
+    "uuid": "^3.3.2"
   }
 }
