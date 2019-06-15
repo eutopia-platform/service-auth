@@ -58,6 +58,7 @@ export default {
     },
 
     logout: async (root, { sessionToken }) => {
+      if (!isValidUUID(sessionToken)) throw new UserInputError('INVALID_UUID')
       await knex('session')
         .where({ token: sessionToken })
         .del()
